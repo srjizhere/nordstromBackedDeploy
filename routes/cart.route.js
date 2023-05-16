@@ -6,23 +6,21 @@ const {CartModel} = require("../model/cart.model.js");
 
 cartRouter.get("/",async(req,res)=>{
     const Userid = req.body.Userid   // got from middleware 
-    const data = await CartModel.find({"Userid":Userid})
+    const data = await CartModel.find({ Userid: Userid }).populate("productid");
     res.send(data)
 })
+
+  
+
 
 
 cartRouter.post("/post",async (req,res)=>{
     const Userid= req.body.Userid;
+    const productid = req.body.productid;
     try {
                     const new_cart = new CartModel({
-                     logo:req.body.logo,
-                    title:req.body.title,
-                    category:req.body.category,
-                    type:req.body.type,
-                    price:req.body.price,
-                    rating:req.body.rating,
-                    Userid:Userid,
-                    
+                        Userid,
+                        productid
                         });
 
                 await new_cart.save();
@@ -44,7 +42,7 @@ cartRouter.delete("/delete",async(req,res)=>{
      await CartModel.deleteMany({"Userid":Userid})
 
    
-        res.send("item deleted successfully")
+        res.send({msg:"item deleted successfully"})
     
     } catch (error) {
         console.log(error)

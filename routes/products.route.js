@@ -6,7 +6,7 @@ const productRouter = express.Router()
 const {ProductModel} = require("../model/products.model")
 
 productRouter.get("/",async(req,res)=>{
-    let editorID = req.body.editorID
+    let editorID = "644eda9e7bc0660f67f1bebd";
     const data = await ProductModel.find({"editorID":editorID})
     res.send(data)
 });
